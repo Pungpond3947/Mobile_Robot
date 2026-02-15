@@ -32,11 +32,17 @@
 ```bash
 sudo apt update
 sudo apt install ros-$ROS_DISTRO-slam-toolbox ros-$ROS_DISTRO-nav2-map-server
+```bash
 
 ### 2. วิธีการ Run
 ```bash
 cd Lab1 && colcon build && source install/setup.bash
 ```bash
+
+```bash
 ros2 launch lab1 turtlebot.launch.py
 ```bash
+
+```bash
 ros2 bag play FRA532_LAB1_DATASET/fibo_floor3_seq00/fibo_floor3_seq00_0.db3 --clock
+```bash
