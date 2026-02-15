@@ -48,7 +48,7 @@ This report includes:
 
 ### 2) `icp_ekf.py` — LiDAR ICP Odometry Refinement (Keyframe ICP)
 **Subscriptions**
-- `/scan` (`sensor_msgs/LaserScan`) @ ~5 Hz *(BEST_EFFORT QoS)*
+- `/scan` (`sensor_msgs/LaserScan`) @ ~5 Hz
 - `/turtle_pose_EKF` (`geometry_msgs/PoseStamped`) — provides **initial guess** for ICP
 
 **Publications**
