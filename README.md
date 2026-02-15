@@ -1,48 +1,190 @@
-# 🤖 LAB 1: Mobile Robot SLAM & Sensor Fusion
+# 🤖 LAB 1: Mobile Robot SLAM & Multi-Sensor Fusion
 
-[![ROS2](https://img.shields.io/badge/ROS2-Humble-blue)](https://docs.ros.org/en/humble/index.html)
-[![Python](https://img.shields.io/badge/Language-Python-yellow)](https://www.python.org/)
+> 🔎 A complete study of Localization, Sensor Fusion, and SLAM for a
+> 2-Wheel Differential Drive Robot using ROS 2 Humble.
 
-โปรเจกต์นี้เป็นการพัฒนาระบบ Localization และ Mapping สำหรับหุ่นยนต์เคลื่อนที่ 2 ล้อ (Differential Drive) เพื่อศึกษาและเปรียบเทียบประสิทธิภาพของการฟิวชันเซนเซอร์ (Sensor Fusion), การจับคู่สแกน (Scan Matching), และการสร้างแผนที่ (SLAM) ในการลดความคลาดเคลื่อนสะสม (Drift)
+------------------------------------------------------------------------
 
----
+# 📌 Overview
 
-## 🎯 วัตถุประสงค์ (Learning Outcomes)
-1. **Part 1 (EKF Odometry Fusion):** ใช้งาน Extended Kalman Filter เพื่อฟิวชัน Wheel Odometry เข้ากับข้อมูล IMU
-2. **Part 2 (ICP Odometry Refinement):** ใช้งาน Iterative Closest Point เพื่อปรับปรุง Odometry จากข้อมูล LiDAR
-3. **Part 3 (Full SLAM):** สร้างแผนที่ 2D และแก้ไข Error สะสมด้วยระบบ Loop Closure ของ `slam_toolbox`
+โปรเจกต์นี้เป็นการพัฒนาระบบ **Localization & Mapping** สำหรับหุ่นยนต์แบบ
+Differential Drive โดยเน้นการแก้ปัญหา **Odometry Drift** ผ่านการทำ
+**Multi-Sensor Fusion (EKF)** และ **Scan Matching (ICP)**
+พร้อมทั้งศึกษาการทำงานของ **Pose Graph SLAM** ด้วย `slam_toolbox`.
 
----
+## แนวคิดหลักของระบบ
 
-## 🛠 โครงสร้างระบบ (System Architecture)
+-   ลดความคลาดเคลื่อนจาก Wheel Encoder\
+-   ปรับปรุง Pose estimation ด้วย IMU\
+-   ใช้ LiDAR Scan Matching ลด error จากล้อ Slip\
+-   ทำ Loop Closure เพื่อแก้ error ทั้งระบบแบบ Global Optimization
 
-ระบบประกอบด้วย 4 ส่วนหลักที่ทำงานประสานกันผ่าน ROS2:
+------------------------------------------------------------------------
 
-* **`turtlebot.py`:** โหนดคำนวณ Differential Drive Kinematics และทำ EKF (Prediction & Update step)
-* **`icp_ekf.py`:** โหนดทำ Point-to-Point Scan Matching โดยอ้างอิง Initial Guess จาก EKF 
-* **`turtlebot_pose.py`:** โหนดจัดการ TF Tree และสร้าง `nav_msgs/Path` เพื่อแสดงผล
-* **`slam_path.py`:** โหนดติดตาม Pose ที่ปรับแก้แล้วจาก SLAM บน Map Frame
+# 🎯 Learning Outcomes
 
----
+## 🔹 1. Sensor Fusion (Extended Kalman Filter)
 
-## 🚀 วิธีการติดตั้งและใช้งาน (Usage)
+### State Vector
 
-### 1. ติดตั้ง Dependencies
-โปรเจกต์นี้จำเป็นต้องใช้แพ็กเกจสำหรับการทำแผนที่:
-```bash
+$$
+x = [x, y, \theta]^T
+$$
+
+-   ทำ Prediction Step จาก Wheel Odometry\
+-   ทำ Correction Step จาก IMU (Gyroscope)\
+-   วิเคราะห์ Covariance propagation และ uncertainty reduction
+
+------------------------------------------------------------------------
+
+## 🔹 2. Scan Matching (Iterative Closest Point -- ICP)
+
+-   ใช้ Point-to-Point ICP\
+-   ใช้ EKF Pose เป็น Initial Guess\
+-   คำนวณ Relative Transform
+
+$$
+T_{k-1,k}
+$$
+
+-   ลด Error จาก Wheel Slip
+
+------------------------------------------------------------------------
+
+## 🔹 3. Full SLAM System
+
+-   ใช้ `slam_toolbox` (Pose Graph SLAM)\
+-   ทำ Loop Closure detection\
+-   ทำ Graph Optimization\
+-   วิเคราะห์ผลก่อนและหลัง Optimization
+
+------------------------------------------------------------------------
+
+# 🏗 System Architecture
+
+  -----------------------------------------------------------------------
+  Node Name                   Role          Description
+  --------------------------- ------------- -----------------------------
+  `turtlebot.py`              EKF Core      Kinematics +
+                                            Prediction/Update ของ EKF
+
+  `icp_ekf.py`                Scan Matcher  ICP Refinement โดยใช้ EKF
+                                            Pose
+
+  `turtlebot_pose.py`         TF Manager    Broadcast TF + Publish
+                                            `nav_msgs/Path`
+
+  `slam_path.py`              Global        Monitor pose บน `map` frame
+                              Monitor       
+  -----------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+## 🧭 ROS 2 Graph Concept
+
+    Wheel Encoder  --->  EKF  --->  ICP Refinement  --->  SLAM Toolbox
+            |               |             |                 |
+            |               |             |                 |
+           IMU ------------>|             |                 |
+                                           |                 |
+                                       LiDAR -------------->|
+
+------------------------------------------------------------------------
+
+# 📷 System Architecture Diagram
+
+![System Architecture](images/system_architecture.png)
+
+------------------------------------------------------------------------
+
+# 🔬 Methodology
+
+## 🧪 Part 1: EKF Odometry Fusion
+
+$$
+x =
+\begin{bmatrix}
+x \\
+y \\
+\theta
+\end{bmatrix}
+$$
+
+### Prediction
+
+-   ใช้ Differential Drive Kinematics\
+-   Propagate covariance matrix
+
+### Correction
+
+-   ใช้ IMU yaw rate\
+-   ลด Drift ใน orientation
+
+------------------------------------------------------------------------
+
+## 🧪 Part 2: ICP Odometry Refinement
+
+1.  รับ Laser Scan ใหม่\
+2.  Convert เป็น Point Cloud\
+3.  Match กับ Scan ก่อนหน้า\
+4.  คำนวณ Transform
+
+$$
+T_{k-1,k}
+$$
+
+5.  Refine Pose ของ EKF
+
+------------------------------------------------------------------------
+
+## 🧪 Part 3: Full SLAM with `slam_toolbox`
+
+-   Node = Robot pose\
+-   Edge = Relative transform\
+-   Loop Closure = Constraint เพิ่มเติม\
+-   Optimization = กระจาย error ทั้ง graph
+
+------------------------------------------------------------------------
+
+# 🚀 Installation
+
+## Install Dependencies
+
+``` bash
 sudo apt update
-sudo apt install ros-$ROS_DISTRO-slam-toolbox ros-$ROS_DISTRO-nav2-map-server
-```bash
+sudo apt install ros-$ROS_DISTRO-slam-toolbox                  ros-$ROS_DISTRO-nav2-map-server                  ros-$ROS_DISTRO-robot-localization
+```
 
-### 2. วิธีการ Run
-```bash
-cd Lab1 && colcon build && source install/setup.bash
-```bash
+## Build Workspace
 
-```bash
-ros2 launch lab1 turtlebot.launch.py
-```bash
+``` bash
+cd ~/your_ws
+colcon build
+source install/setup.bash
+```
 
-```bash
-ros2 bag play FRA532_LAB1_DATASET/fibo_floor3_seq00/fibo_floor3_seq00_0.db3 --clock
-```bash
+## Run System
+
+``` bash
+ros2 launch your_package main.launch.py
+rviz2
+```
+
+------------------------------------------------------------------------
+
+# 📊 Results
+
+  Method           Drift     Accuracy    Stability
+  ---------------- --------- ----------- -------------
+  Wheel Odometry   High      Low         Unstable
+  EKF Fusion       Medium    Good        Stable
+  EKF + ICP        Low       High        Very Stable
+  Full SLAM        Minimal   Very High   Optimized
+
+------------------------------------------------------------------------
+
+# 👨‍💻 Author
+
+**Kunanon Sawetkotchakul**\
+Robotics & Automation Engineering\
+Institute of Field Robotics (FIBO)
