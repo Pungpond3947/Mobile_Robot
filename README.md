@@ -158,7 +158,7 @@ sudo apt install ros-$ROS_DISTRO-slam-toolbox                  ros-$ROS_DISTRO-n
 ## Build Workspace
 
 ``` bash
-cd ~/your_ws
+cd Mobile_Robot
 colcon build
 source install/setup.bash
 ```
@@ -166,7 +166,7 @@ source install/setup.bash
 ## Run System
 
 ``` bash
-ros2 launch your_package main.launch.py
+ros2 launch lab1 turtlebot.launch.py
 rviz2
 ```
 
