@@ -293,20 +293,34 @@ slam_toolbox:
 
 ## ✅ How to Run (Typical)
 
-### 1) Build
+### 1) Clone
 ```bash
+git clone -b Lab1 https://github.com/Pungpond3947/Mobile_Robot.git
+```
+
+### 2) Build
+```bash
+cd Mobile_Robot
 colcon build
 source install/setup.bash
 ```
 
-### 2) Play bag (example)
-```bash
-ros2 bag play <bag_path> --clock
-```
-
 ### 3) Launch
 ```bash
-ros2 launch lab1 main.launch.py
+ros2 launch lab1 turtlebot.launch.py
+```
+
+### 4) Play bag (example)
+```bash
+ros2 bag play FRA532_LAB1_DATASET/fibo_floor3_seq00/fibo_floor3_seq00_0.db3 --clock
+```
+or
+```bash
+ros2 bag play FRA532_LAB1_DATASET/fibo_floor3_seq01/fibo_floor3_seq01_0.db3 --clock
+```
+or
+```bash
+ros2 bag play FRA532_LAB1_DATASET/fibo_floor3_seq02/fibo_floor3_seq02_0.db3 --clock
 ```
 
 ### 4) RViz
