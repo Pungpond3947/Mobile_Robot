@@ -28,6 +28,8 @@ This report includes:
     -   SLAM (Pose Graph Optimized)
 -   Generated 2D occupancy maps
 
+---
+
 ## 📦 Nodes & Topics
 
 ### 1) `turtlebot.py` — EKF Core + Wheel Odometry
