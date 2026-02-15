@@ -17,7 +17,7 @@ This document explains the provided ROS 2 Humble Python implementation for:
 
 The experimental evaluation results are provided in:
 
-[![View Report](https://img.shields.io/badge/View-Experiment_Report-blue)](Result%20Mapping.pdf)
+📄 **[View Result Report](https://raw.githubusercontent.com/Pungpond3947/Mobile_Robot/Lab1/Result%20Mapping.pdf)**
 
 This report includes:
 
