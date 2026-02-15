@@ -13,6 +13,23 @@ This document explains the provided ROS 2 Humble Python implementation for:
 
 ---
 
+# 📊 Results & Report
+
+The experimental evaluation results are provided in:
+
+📄 **[View Result Report](https://raw.githubusercontent.com/Pungpond3947/Mobile_Robot/Lab1/Result%20Mapping.pdf)**
+
+This report includes:
+
+-   Trajectory comparison of:
+    -   Wheel Odometry
+    -   EKF Odometry
+    -   ICP-refined Odometry
+    -   SLAM (Pose Graph Optimized)
+-   Generated 2D occupancy maps
+
+---
+
 ## 📦 Nodes & Topics
 
 ### 1) `turtlebot.py` — EKF Core + Wheel Odometry
