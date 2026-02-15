@@ -11,7 +11,7 @@ slam_toolbox:
     use_sim_time: true
 
     # 3. Pose Graph & Optimization
-    do_loop_closing: false
+    do_loop_closing: true
     max_lasso_dist: 2.0
     minimum_time_interval: 0.5
     
