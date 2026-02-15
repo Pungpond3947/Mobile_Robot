@@ -349,15 +349,6 @@ RViz should display:
 
 ---
 
-## ⚠️ Known Assumptions / Limitations
-
-- `/joint_states.velocity` is assumed in **m/s**, not rad/s.
-- EKF update uses **only yaw** (no position measurement).
-- ICP uses brute-force nearest neighbor → may be slow for dense scans.
-- Static TF `base_link_icp -> base_scan` is identity; real sensor offset should be used if known.
-
----
-
 ## 📂 Suggested Repo Layout
 
 ```text
@@ -368,15 +359,11 @@ lab1/
 │   ├── turtlebot_pose.py
 │   └── slam_path.py
 ├── launch/
-│   └── main.launch.py
+│   └── turtlebot.launch.py
 ├── slam_config/
 │   └── slam_params.yaml
 ├── rviz2_config/
 │   └── rviz2.config.rviz
-├── images/
-│   ├── system_architecture.png
-│   └── robot_dimension.png
-└── README.md
 ```
 
 ---
