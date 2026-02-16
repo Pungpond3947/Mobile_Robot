@@ -323,11 +323,17 @@ source install/setup.bash
 ```
 
 ### 3) Launch
+Terminal 1
 ```bash
 ros2 launch lab1 turtlebot.launch.py
 ```
 
 ### 4) Play bag (example)
+Terminal 2
+```bash
+cd Mobile_Robot/src/
+```
+
 ```bash
 ros2 bag play FRA532_LAB1_DATASET/fibo_floor3_seq00/fibo_floor3_seq00_0.db3 --clock
 ```
