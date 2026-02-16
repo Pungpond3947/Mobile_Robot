@@ -17,7 +17,7 @@ This document explains the provided ROS 2 Humble Python implementation for:
 
 The experimental evaluation results are provided in:
 
-📄 **[View Result Report](https://raw.githubusercontent.com/Pungpond3947/Mobile_Robot/Lab1/Result%20Mapping.pdf)**
+📄 **[View Result Report](https://raw.githubusercontent.com/Pungpond3947/Mobile_Robot/Lab1/Result_Mapping.pdf)**
 
 This report includes:
 
@@ -48,7 +48,7 @@ This report includes:
 
 ### 2) `icp_ekf.py` — LiDAR ICP Odometry Refinement (Keyframe ICP)
 **Subscriptions**
-- `/scan` (`sensor_msgs/LaserScan`) @ ~5 Hz *(BEST_EFFORT QoS)*
+- `/scan` (`sensor_msgs/LaserScan`) @ ~5 Hz
 - `/turtle_pose_EKF` (`geometry_msgs/PoseStamped`) — provides **initial guess** for ICP
 
 **Publications**
@@ -323,11 +323,17 @@ source install/setup.bash
 ```
 
 ### 3) Launch
+Terminal 1
 ```bash
 ros2 launch lab1 turtlebot.launch.py
 ```
 
 ### 4) Play bag (example)
+Terminal 2
+```bash
+cd src/
+```
+
 ```bash
 ros2 bag play FRA532_LAB1_DATASET/fibo_floor3_seq00/fibo_floor3_seq00_0.db3 --clock
 ```
