@@ -331,7 +331,7 @@ ros2 launch lab1 turtlebot.launch.py
 ### 4) Play bag (example)
 Terminal 2
 ```bash
-cd Mobile_Robot/src/
+cd src/
 ```
 
 ```bash
