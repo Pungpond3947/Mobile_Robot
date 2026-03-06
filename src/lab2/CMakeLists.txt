@@ -30,6 +30,7 @@ install(PROGRAMS
   scripts/dummy_script.py
   scripts/pid_node.py
   scripts/lqr_node.py
+  scripts/plot_path.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
