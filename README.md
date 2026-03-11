@@ -1,5 +1,5 @@
 
-# 🚁 ROS2 LQRi Trajectory Controller for Quadrotor
+# ROS2 LQRi Trajectory Controller for Quadrotor
 
 This repository contains a **ROS 2 Humble Python controller node** for a quadrotor UAV.
 The controller implements:
@@ -14,7 +14,7 @@ The system supports multiple flight modes including hover, straight motion, sine
 
 ---
 
-# 📦 Node Overview
+# Node Overview
 
 ### Node Name
 ```
@@ -44,7 +44,7 @@ lqri_trajectory_controller
 
 ---
 
-# 🧠 Control Architecture
+# Control Architecture
 
 The control system uses a **nested control structure**.
 
@@ -62,7 +62,7 @@ Motor Angular Velocity Commands
 
 ---
 
-# 📍 State Variables
+# State Variables
 
 The controller estimates:
 
@@ -88,7 +88,7 @@ Data comes from:
 
 ---
 
-# ⚙️ Attitude Controller (LQRi)
+# Attitude Controller (LQRi)
 
 The inner loop uses **LQR with integral action**.
 
@@ -130,7 +130,7 @@ K = R⁻¹ Bᵀ P
 
 ---
 
-# 📏 Position Controller
+# Position Controller
 
 The outer loop converts **position error → attitude commands**.
 
@@ -168,7 +168,7 @@ roll_cmd =
 
 ---
 
-# ⬆️ Altitude Controller
+# Altitude Controller
 
 Altitude uses PID control.
 
@@ -193,7 +193,7 @@ kd_z * derivative_z
 
 ---
 
-# 🔧 Motor Mixing
+# Motor Mixing
 
 Quadrotor force vector:
 
@@ -221,7 +221,7 @@ Limited by:
 
 ---
 
-# 🧭 Flight Modes
+# Flight Modes
 
 | Mode | Description |
 |-----|-----|
@@ -231,7 +231,7 @@ Limited by:
 
 ---
 
-# 📈 Trajectory Modes
+# Trajectory Modes
 
 ### Hover
 Maintain position.
@@ -289,36 +289,124 @@ y = (a sin(ωt)cos(ωt))/(1 + sin²(ωt))
 
 ---
 
-# 🚀 How to Run
+# How to Run
 
-Build the workspace:
+The controller is designed to run together with the **quadrotor
+simulator** from the `quad_description` package.
 
+The simulator provides:
+
+-   `/odom`
+-   `/imu`
+
+and receives motor commands from:
+
+-   `/motor_commands`
+
+------------------------------------------------------------------------
+### 1) Clone
+```bash
+git clone -b Lab2 https://github.com/Pungpond3947/Mobile_Robot.git
 ```
+
+### 2) Build
+```bash
+cd Mobile_Robot
 colcon build
 source install/setup.bash
 ```
 
-Run the controller:
+## Launch the Simulation
 
-```
-ros2 run <your_package> lqri_trajectory_controller
-```
+Open **Terminal 1** and start the quadrotor simulation.
 
-Set flight mode:
-
+``` bash
+ros2 launch quad_description sim.launch.py
 ```
+------------------------------------------------------------------------
+
+## Select Flight Mode
+
+Open **Terminal 3** to control the drone behaviour.
+
+Example:
+
+``` bash
 ros2 topic pub /set_flight_mode std_msgs/String "{data: '3D'}"
 ```
 
-Send target:
+This command:
 
+-   Activates the motors
+-   Enables the controller
+
+------------------------------------------------------------------------
+
+# 🧭 Available Flight Modes
+
+  Mode              Description
+  ----------------- ----------------------------------------
+  `IDLE`            Motors OFF
+  `2D`              Motion control in **X-Z plane**
+  `3D`              Motion control in **X-Y-Z space**
+  `2D_SINE`         Drone follows **sine wave trajectory**
+  `2D_STRAIGHT_F`   Move forward along **X axis**
+  `2D_STRAIGHT_B`   Move backward along **X axis**
+  `2D_RAMP_WAVE`    Triangle wave altitude motion
+  `3D_HELIX`        Spiral (helix) trajectory
+  `3D_STRAIGHT`     Straight motion in 3D
+  `3D_FIGURE8`      Figure‑8 trajectory
+
+Example:
+
+``` bash
+ros2 topic pub /set_flight_mode std_msgs/String "{data: '3D_HELIX'}"
 ```
+
+This will make the drone follow a **3D spiral trajectory**.
+
+------------------------------------------------------------------------
+
+## 4️⃣ Send Target Position (Manual Control)
+
+When the drone is in **2D** or **3D** mode you can send a target
+position.
+
+Example:
+
+``` bash
 ros2 topic pub /set_target_xyz geometry_msgs/Vector3 "{x: 2.0, y: 1.0, z: 2.0}"
 ```
 
----
+Meaning:
 
-# 📊 Control Frequency
+    Target position
+    x = 2.0 m
+    y = 1.0 m
+    z = 2.0 m
+
+The controller will automatically convert:
+
+    position error → attitude command → motor command
+
+------------------------------------------------------------------------
+
+## 5️⃣ Stop the Drone
+
+To stop the drone:
+
+``` bash
+ros2 topic pub /set_flight_mode std_msgs/String "{data: 'IDLE'}"
+```
+
+This command:
+
+-   Turns motors OFF
+-   Stops the controller
+
+------------------------------------------------------------------------
+
+# Control Frequency
 
 ```
 100 Hz
@@ -359,7 +447,7 @@ R = control penalty
 
 ---
 
-# 📂 Suggested Repository Structure
+# Suggested Repository Structure
 
 ```
 quadrotor_control/
