@@ -468,7 +468,7 @@ quadrotor_control/
 
 # 👨‍💻 Author
 
-Kunanon Sawetkotchakul  
+Khunanon Sawetkhotchakul 66340500006
 Robotics & Automation Engineering  
 Institute of Field Robotics (FIBO)  
 King Mongkut's University of Technology Thonburi
