@@ -243,15 +243,6 @@ Move to user‑defined target.
 
 ---
 
-### Sine (2D)
-
-```
-x = x0 + 0.3t
-z = z0 + sin(0.5t)
-```
-
----
-
 ### Straight Motion
 
 Forward:
@@ -264,6 +255,34 @@ Backward:
 
 ```
 x = x0 - 3t
+```
+
+---
+
+### Sine (2D)
+
+```
+x = x0 + 0.3t
+z = z0 + sin(0.5t)
+```
+
+---
+
+### Ramp (2D)
+
+```
+z = z0 + 1.5 * triangle_wave(t)
+x = x0 + 0.8t
+```
+
+---
+
+### Straight (3D)
+
+```
+x = x0 + vx t
+y = y0 + vy t
+z = z0 + vz t
 ```
 
 ---
@@ -283,8 +302,9 @@ Produces a spiral trajectory.
 ### Figure‑8 (3D)
 
 ```
-x = (a cos(ωt))/(1 + sin²(ωt))
-y = (a sin(ωt)cos(ωt))/(1 + sin²(ωt))
+x = x0 + (a cos(ωt))/(1 + sin²(ωt)) - a
+y = y0 + (a sin(ωt)cos(ωt))/(1 + sin²(ωt))
+z = z0 + sin(2ωt)
 ```
 
 ---
