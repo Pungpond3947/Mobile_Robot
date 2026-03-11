@@ -303,7 +303,6 @@ and receives motor commands from:
 
 -   `/motor_commands`
 
-------------------------------------------------------------------------
 ### 1) Clone
 ```bash
 git clone -b Lab2 https://github.com/Pungpond3947/Mobile_Robot.git
@@ -315,6 +314,7 @@ cd Mobile_Robot
 colcon build
 source install/setup.bash
 ```
+------------------------------------------------------------------------
 
 ## Launch the Simulation
 
