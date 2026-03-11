@@ -165,6 +165,7 @@ class LQRiTrajectoryController(Node):
         
         if self.flight_mode == "2D":
             self.target_x = msg.x
+            self.target_y = msg.y
             self.target_z = msg.z
             self.get_logger().info(f"2D GOTO -> X: {msg.x:.2f}, Z: {msg.z:.2f} (Y axis ignored)")
             
@@ -340,7 +341,7 @@ class LQRiTrajectoryController(Node):
         cmd_pitch = (self.kp_pos * error_x) + (self.ki_pos * self.integral_x) + (self.kd_pos * deriv_x)
         self.target_pitch = np.clip(cmd_pitch, -self.max_angle_cmd, self.max_angle_cmd)
 
-        if self.flight_mode == "3D":
+        if self.flight_mode in ["2D","3D"]:
             error_y = self.target_y - self.curr_y
             self.integral_y = np.clip(self.integral_y + error_y * dt, -self.max_i_pos, self.max_i_pos)
             deriv_y = (error_y - self.prev_error_y) / dt

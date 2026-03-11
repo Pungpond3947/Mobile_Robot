@@ -29,17 +29,17 @@ def generate_launch_description():
     rviz_file_path = os.path.join(get_package_share_directory(package_name), "rviz", rviz_file_name)
     plot_config_path = os.path.join(get_package_share_directory(package_name), 'config', 'plot_config.xml')
 
-    default_world = os.path.join(
-        get_package_share_directory(package_name),
-        'worlds',
-        'empty.sdf'
-        )
-
     # default_world = os.path.join(
     #     get_package_share_directory(package_name),
     #     'worlds',
-    #     'wind.sdf'
-    #     )   
+    #     'empty.sdf'
+    #     )
+
+    default_world = os.path.join(
+        get_package_share_directory(package_name),
+        'worlds',
+        'wind.sdf'
+        )   
 
     world = LaunchConfiguration('world')
 
@@ -79,7 +79,6 @@ def generate_launch_description():
         ],
         output="screen"
     )
-
 
     bridge_params = os.path.join(get_package_share_directory(package_name),'config','gz_bridge.yaml')
     bridge = Node(

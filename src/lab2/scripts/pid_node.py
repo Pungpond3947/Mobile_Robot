@@ -5,7 +5,6 @@ from rclpy.node import Node
 from nav_msgs.msg import Odometry
 from actuator_msgs.msg import Actuators
 from geometry_msgs.msg import Vector3
-from std_msgs.msg import Float64
 import math
 
 # ฟังก์ชันสำหรับแปลง Quaternion เป็นมุม Euler (Roll, Pitch, Yaw)
@@ -33,12 +32,15 @@ class HoverController(Node):
         self.odom_sub = self.create_subscription(Odometry, '/odom', self.odom_callback, 10)
         self.motor_pub = self.create_publisher(Actuators, '/motor_commands', 10)
 
-        self.pub_curr_z = self.create_publisher(Float64, '/debug/current_z', 10)
-        self.pub_tgt_z = self.create_publisher(Float64, '/debug/target_z', 10)
+        # แก้ไข Publisher ให้เป็น Vector3 ตามโค้ดที่ 2
+        self.pub_curr_xyz = self.create_publisher(Vector3, '/debug/current_xyz', 10)
+        self.pub_tgt_xyz = self.create_publisher(Vector3, '/debug/target_xyz', 10)
         self.pub_curr_rpy = self.create_publisher(Vector3, '/debug/current_rpy', 10)
         self.pub_tgt_rpy = self.create_publisher(Vector3, '/debug/target_rpy', 10)
 
         # --- Targets (จุดเป้าหมายสำหรับการ Hover) ---
+        self.target_x = 0.0 # เพิ่มเข้ามาสำหรับ Topic
+        self.target_y = 0.0 # เพิ่มเข้ามาสำหรับ Topic
         self.target_z = 2.0
         self.target_roll = 0.0
         self.target_pitch = 0.0
@@ -73,6 +75,8 @@ class HoverController(Node):
         self.max_motor_vel = 1500.0 # ลิมิตความเร็วรอบสูงสุดของมอเตอร์ (ปรับตามสเปคของโดรนใน Gazebo)
 
         # --- States ปัจจุบัน ---
+        self.curr_x = 0.0 # เพิ่มเข้ามา
+        self.curr_y = 0.0 # เพิ่มเข้ามา
         self.curr_z = 0.0
         self.curr_roll = 0.0; self.curr_pitch = 0.0; self.curr_yaw = 0.0
         self.curr_roll_rate = 0.0; self.curr_pitch_rate = 0.0; self.curr_yaw_rate = 0.0
@@ -97,7 +101,9 @@ class HoverController(Node):
 
     def odom_callback(self, msg):
         """ รับค่า Odometry ทั้ง Position, Orientation และ Angular Velocity """
-        # อัปเดตตำแหน่ง Z และมุม Euler
+        # อัปเดตตำแหน่ง X, Y, Z และมุม Euler
+        self.curr_x = msg.pose.pose.position.x
+        self.curr_y = msg.pose.pose.position.y
         self.curr_z = msg.pose.pose.position.z
         q = msg.pose.pose.orientation
         self.curr_roll, self.curr_pitch, self.curr_yaw = euler_from_quaternion(q.x, q.y, q.z, q.w)
@@ -109,13 +115,13 @@ class HoverController(Node):
         
         self.odom_ready = True
 
-        # ส่งค่า Debug 
-        self.pub_curr_z.publish(Float64(data=self.curr_z))
-        self.pub_tgt_z.publish(Float64(data=self.target_z))
-        curr_rpy_msg = Vector3(x=math.degrees(self.curr_roll), y=math.degrees(self.curr_pitch), z=math.degrees(self.curr_yaw))
-        self.pub_curr_rpy.publish(curr_rpy_msg)
-        tgt_rpy_msg = Vector3(x=math.degrees(self.target_roll), y=math.degrees(self.target_pitch), z=math.degrees(self.target_yaw))
-        self.pub_tgt_rpy.publish(tgt_rpy_msg)
+        # ส่งค่า Debug แบบ Vector3 
+        self.pub_curr_xyz.publish(Vector3(x=self.curr_x, y=self.curr_y, z=self.curr_z))
+        self.pub_tgt_xyz.publish(Vector3(x=self.target_x, y=self.target_y, z=self.target_z))
+        
+        # ส่งค่า RPY (ใช้ Radian เพื่อให้สเกลตรงกับโค้ด 2)
+        self.pub_curr_rpy.publish(Vector3(x=self.curr_roll, y=self.curr_pitch, z=self.curr_yaw))
+        self.pub_tgt_rpy.publish(Vector3(x=self.target_roll, y=self.target_pitch, z=self.target_yaw))
 
     def z_control_loop(self):
         """ SLOW LOOP (10 Hz): คุมตำแหน่งแกน Z """
