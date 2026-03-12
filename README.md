@@ -590,6 +590,8 @@ Mobile_Robot-Lab2/
 ## Authors
 
 - Khunanon Sawetkhotchakul 66340500006
+- Waratanut Kitkrongkajon 66340500071
+- Pawaris Tangtrakul 66340500074
 - Robotics & Automation Engineering
 - Institute of Field Robotics (FIBO)
 - King Mongkut's University of Technology Thonburi
