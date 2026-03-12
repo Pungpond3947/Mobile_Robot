@@ -32,6 +32,8 @@ install(PROGRAMS
   scripts/lqr_node.py
   scripts/plot_path.py
   scripts/result.py
+  scripts/mpc_node.py
+  scripts/plot_path_mpc.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
