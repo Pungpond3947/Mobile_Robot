@@ -1,7 +1,7 @@
 # LAB2: Quadrotor Control — LQRi & MPC
 
 **Course:** FRA532 - Mobile Robot
-**Team:** Pao-Pond Hero
+**Team:** Pao Pond Hero
 
 A ROS2 quadrotor simulation with two control approaches: **LQRi** (LQR with integral action + PID position) and **MPC** (constrained QP via OSQP). Both controllers support hover, 2D, and 3D trajectory tracking in Gazebo Harmonic, tested with and without wind disturbance.
 
