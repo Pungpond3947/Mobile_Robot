@@ -134,7 +134,7 @@ lqri_trajectory_controller
 
 The control system uses a **nested control structure**.
 
-[Lab2_ControlArchitecture.png]
+![LQR Control Architecture](Lab2_ControlArchitecture.png)
 
 ---
 
