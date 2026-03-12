@@ -134,17 +134,7 @@ lqri_trajectory_controller
 
 The control system uses a **nested control structure**.
 
-```
-Trajectory Generator
-        ↓
-Position Controller (PID)
-        ↓
-Attitude Controller (LQRi)
-        ↓
-Motor Mixing
-        ↓
-Motor Angular Velocity Commands
-```
+(Lab2_ControlArchitecture.png)
 
 ---
 
