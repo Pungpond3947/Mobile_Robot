@@ -267,11 +267,11 @@ class LQRiTrajectoryController(Node):
             self.target_z = self.traj_start_z + 1.0 * math.sin(0.5 * t_traj)
             
         elif self.trajectory_type == "STRAIGHT_F":
-            self.target_x = self.traj_start_x + 3.0 * t_traj 
+            self.target_x = self.traj_start_x + 0.25 * t_traj 
             self.target_z = self.traj_start_z
             
         elif self.trajectory_type == "STRAIGHT_B":
-            self.target_x = self.traj_start_x - 3.0 * t_traj
+            self.target_x = self.traj_start_x - 0.25 * t_traj
             self.target_z = self.traj_start_z
 
         elif self.trajectory_type == "RAMP_WAVE":
@@ -283,11 +283,11 @@ class LQRiTrajectoryController(Node):
             else:
                 z_wave = 2.0 * (1.0 - phase)
                 
-            self.target_x = self.traj_start_x + 0.8 * t_traj
+            self.target_x = self.traj_start_x + 0.25 * t_traj
             self.target_z = self.traj_start_z + (1.5 * z_wave)
 
         elif self.trajectory_type == "STRAIGHT_3D":
-            vx, vy, vz = 1.0, 0.5, 0.2
+            vx, vy, vz = 0.25, 0.25, 0.25
             self.target_x = self.traj_start_x + vx * t_traj
             self.target_y = self.traj_start_y + vy * t_traj
             self.target_z = self.traj_start_z + vz * t_traj
