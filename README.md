@@ -314,19 +314,19 @@ Limited by:
 ### Select Flight Mode
 
 ```bash
-ros2 topic pub /set_flight_mode std_msgs/String "{data: '3D'}"
+ros2 topic pub --once /set_flight_mode std_msgs/String "{data: '3D'}"
 ```
 
 ### Send Target Position
 
 ```bash
-ros2 topic pub /set_target_xyz geometry_msgs/Vector3 "{x: 2.0, y: 1.0, z: 2.0}"
+ros2 topic pub --once /set_target_xyz geometry_msgs/Vector3 "{x: 2.0, y: 1.0, z: 2.0}"
 ```
 
 ### Stop the Drone
 
 ```bash
-ros2 topic pub /set_flight_mode std_msgs/String "{data: 'IDLE'}"
+ros2 topic pub --once /set_flight_mode std_msgs/String "{data: 'IDLE'}"
 ```
 
 ---
@@ -346,7 +346,7 @@ ros2 topic pub /set_flight_mode std_msgs/String "{data: 'IDLE'}"
 Example:
 
 ```bash
-ros2 topic pub /set_flight_mode std_msgs/String "{data: '3D_HELIX'}"
+ros2 topic pub --once /set_flight_mode std_msgs/String "{data: '3D_HELIX'}"
 ```
 
 ---
