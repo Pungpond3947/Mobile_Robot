@@ -76,7 +76,7 @@ git clone -b Lab2 https://github.com/Pungpond3947/Mobile_Robot.git Mobile_Robot-
 
 ```bash
 cd ~/Mobile_Robot-Lab2
-colcon build --symlink-install
+colcon build
 source install/setup.bash
 ```
 
