@@ -582,7 +582,7 @@ Mobile_Robot-Lab2/
 
 ## Documentation
 
-- **LQR:** [Mobile_Document.pdf](Mobile_Document.pdf)
+- **LQR:** [LQR_Document.pdf](LQR_Document.pdf)
 - **MPC:** [docs/MPC_Documentation.md](docs/MPC_Documentation.md) — Full technical write-up (dynamics, linearization, MPC formulation, QP constraints, tuning, results)
 
 ---
