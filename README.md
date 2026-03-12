@@ -94,6 +94,8 @@ ros2 launch quad_description sim.launch.py
 
 # With wind
 # Change the world in sim.launch.py to wind.sdf, then:
+colcon build
+source install/setup.bash
 ros2 launch quad_description sim.launch.py
 ```
 
