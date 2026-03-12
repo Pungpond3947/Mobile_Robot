@@ -16,6 +16,7 @@ A ROS2 quadrotor simulation with two control approaches: **LQRi** (LQR with inte
   - [LQR Launch](#lqr-launch)
   - [LQR Node Overview](#lqr-node-overview)
   - [LQR Control Architecture](#lqr-control-architecture)
+  - [LQR System Architecture](#lqr-system-architecture)
   - [LQR Attitude Controller](#lqr-attitude-controller)
   - [LQR Position Controller](#lqr-position-controller)
   - [LQR Altitude Controller](#lqr-altitude-controller)
@@ -135,6 +136,12 @@ lqri_trajectory_controller
 The control system uses a **nested control structure**.
 
 ![LQR Control Architecture](Lab2_ControlArchitecture.png)
+
+---
+
+## LQR System Architecture
+
+![LQR System Architecture](Lab2_SystemArchitech.png)
 
 ---
 
